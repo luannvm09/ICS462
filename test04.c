@@ -25,6 +25,7 @@ int southBoundVehicleNum;
 float northBoundRatio[100], southBoundRatio[100];
 int delayTime[100];
 int ending = 1;
+int vehicleNum;
 
 pthread_mutex_t monitorLock;						  // monitor lock
 pthread_cond_t NorthSouth = PTHREAD_COND_INITIALIZER; // blockinng north/south cars
@@ -67,7 +68,7 @@ void arrive(Vehicle vehicle, int direction, int index)
 	pthread_mutex_lock(&monitorLock);
 	while (isSafe(vehicle) == 0)
 	{
-		pthread_cond_wait(isSafe(vehicle), &monitorLock); // ??????????????????????
+		pthread_cond_wait(&NorthSouth, &monitorLock); // ??????????????????????
 	}
 	if (direction == 1)
 	{
@@ -84,13 +85,15 @@ void arrive(Vehicle vehicle, int direction, int index)
 		}
 	}
 	printf(" %s id %d has arrived the bridge", vehicle.type, vehicle.id);
-	crossing(vehicle, direction);
+	pthread_mutex_unlock(&monitorLock);
+	//crossing(vehicle, direction);
 }
 
 // Direction is 1 for northbound and 2 for southbound
 void crossing(Vehicle vehicle, int direction)
 {
-	char dir[10];
+	char dir[20];
+	pthread_mutex_lock(&monitorLock);
 	if (direction == 1)
 	{
 		strcpy(dir, "northbound");
@@ -101,19 +104,28 @@ void crossing(Vehicle vehicle, int direction)
 	}
 	printf(" %s id %d is crossing the bridge on %s", vehicle.type, vehicle.id, dir);
 	sleep(CROSSINGTIME);
-	leaving(vehicle);
+	pthread_mutex_unlock(&monitorLock);
+	//leaving(vehicle);
 }
 
 void leaving(Vehicle vehicle)
 {
+	pthread_mutex_lock(&monitorLock);
 	printf(" %s id %d has left the bridge", vehicle.type, vehicle.id);
-	currentWeight = currentWeight = vehicle.vehicleWeight;
-	pthread_cond_signal(isSafe(vehicle)); // ?????????????????????
+	currentWeight = currentWeight - vehicle.vehicleWeight;
+	pthread_cond_signal(&NorthSouth); // ?????????????????????
 	pthread_mutex_unlock(&monitorLock);
 	pthread_exit(0);
 }
 
-void northBoundQueueDisplay(vehicle northBound[])
+void tempFunction(Vehicle vehicle, int direction, int index){
+	arrive(vehicle, direction, index);
+	crossing( vehicle,  direction);
+	leaving( vehicle);
+}
+
+/*
+void northBoundQueueDisplay(Vehicle northBound[][])
 {
 	for (int i = 0; i < northBoundVehicleNum; i++)
 	{
@@ -121,20 +133,32 @@ void northBoundQueueDisplay(vehicle northBound[])
 	}
 }
 
-void southBoundQueueDisplay(vehicle southBound[])
+void southBoundQueueDisplay(Vehicle southBound[][])
 {
 	for (int i = 0; i < southBoundVehicleNum; i++)
 	{
 		printf("% s id: %d  \n", southBound[index][i].type, southBound[index][i].id);
 	}
 }
-
+*/
 int main()
 {
-	pthread_mutex_init(&MonitorLock, USYNC_THREAD, (void *) NULL);
+	//pthread_t tid[vehicleNum]; 
+
+	pthread_mutex_init(&monitorLock, (void *) NULL);
 	int index, loopCount = 0;
 	//Vehicle northBound[100][100];
 	//Vehicle southBound[100][100];
+	for(int i = 0; i < 100; i++){
+		//printf("%d" , i);
+		delayTime[i] = 0;
+		vehicleNumber[i] = 0;
+		northBoundRatio[i] = 0;
+		southBoundRatio[i] = 0;
+		northBoundVehicleNumber[i] = 0;
+		southBoundVehicleNumber[i] = 0;
+
+	}
 	while (ending != 0)
 	{
 		currentWeight = totalWeight = 0;
@@ -144,12 +168,13 @@ int main()
 		scanf("%f / %f", &northBoundRatio[index], &southBoundRatio[index]);
 		printf("Enter the delay time between two batched: ");
 		scanf("%d", &delayTime[index]);
+		printf("Check");
 		if (delayTime[index] == 0)
 		{
 			ending = 0; // the condition to stop the loop for user input
 		}
 
-		int vehicleNum = vehicleNumber[index];
+		vehicleNum = vehicleNumber[index];
 		float northRatio = northBoundRatio[index];
 		float southRatio = southBoundRatio[index];
 
@@ -164,18 +189,22 @@ int main()
 	while (index < loopCount)
 	{
 		
-		int vehicleNum = vehicleNumber[index];
+		vehicleNum = vehicleNumber[index];
 		//int i;
-		Vehicle x[vehicleNum];
+		//Vehicle x[vehicleNum];
 		for (int i = 0; i < vehicleNum; i++)
 		{
+			
 			if (i < northBoundVehicleNum)
 			{
-				arrive(x[i], 1, index);
+				//pthread_create(&tid[i], NULL, (void*)tempFunction, NULL);
+				//pthread_join(tid[i], NULL);
+				
 			}
 			else
 			{
-				arrive(x[i], 2, index);
+				//pthread_create(&tid[i], NULL, (void*)tempFunction, NULL);
+				//pthread_join(tid[i], NULL);
 			}
 		}
 		index++;
