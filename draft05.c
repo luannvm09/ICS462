@@ -10,7 +10,6 @@
 #define TRUE 1
 #define FALSE 0
 
-// mutex lock for synchronization so that only one out of north and south farmer can enter bridge at a time
 pthread_mutex_t Northlock, Southlock;
 pthread_cond_t Cond;
 int currentWeight = 0;
@@ -31,12 +30,10 @@ static int isSafe(Vehicle vehicle)
 {
     if ((currentWeight + vehicle.vehicleWeight) <= MAX_WEIGHT)
     {
-        //printf("Ok for vehicle proceed \n");
         return TRUE;
     }
     else
     {
-        printf("overweight. Vehicle cannot proceed \n");
         return FALSE;
     }
 }
@@ -52,33 +49,38 @@ void arrive(Vehicle *vehicle)
     currentWeight = currentWeight + vehicle->vehicleWeight;
 }
 
-void crossing(Vehicle *vehicle){
-    printf("%s %d is crossing the bridge \n\n" , vehicle->type, vehicle->id);
+void crossing(Vehicle *vehicle)
+{
+    printf("%s %d is crossing the bridge \n\n", vehicle->type, vehicle->id);
     sleep(3);
 }
 
-void leaving(Vehicle *vehicle){
-	printf("%s %d has finished crossing the bridge \n\n" , vehicle->type, vehicle->id);
-	currentWeight = currentWeight - vehicle->vehicleWeight;
+void leaving(Vehicle *vehicle)
+{
+    printf("%s %d has finished crossing the bridge \n\n", vehicle->type, vehicle->id);
+    currentWeight = currentWeight - vehicle->vehicleWeight;
 }
 
 void *northBound(void *arg)
 {
-   
+
     pthread_mutex_lock(&Northlock);
 
     printf("NorthBound ");
-    arrive((Vehicle*) arg);
-
-    printf("Northbound ");
-    crossing((Vehicle*) arg);
-	
-    printf("Northbound ");
-    leaving((Vehicle*) arg);
-
-    // release lock
+    arrive((Vehicle *)arg);
     pthread_mutex_unlock(&Northlock);
-    
+
+    pthread_mutex_lock(&Northlock);
+    printf("Northbound ");
+    crossing((Vehicle *)arg);
+    pthread_mutex_unlock(&Northlock);
+
+    pthread_mutex_lock(&Northlock);
+    printf("Northbound ");
+    leaving((Vehicle *)arg);
+
+    pthread_mutex_unlock(&Northlock);
+
     return NULL;
 }
 
@@ -87,24 +89,26 @@ void *southBound(void *arg)
     pthread_mutex_lock(&Southlock);
 
     printf("SouthBound ");
-    arrive((Vehicle*) arg);
+    arrive((Vehicle *)arg);
+    pthread_mutex_unlock(&Southlock);
 
+    pthread_mutex_lock(&Southlock);
     printf("Southbound ");
-    crossing((Vehicle*) arg);
+    crossing((Vehicle *)arg);
+    pthread_mutex_unlock(&Southlock);
 
+    pthread_mutex_lock(&Southlock);
     printf("Southbound ");
-    leaving((Vehicle*) arg);
+    leaving((Vehicle *)arg);
 
     pthread_mutex_unlock(&Southlock);
-    
+
     return NULL;
 }
 
 int main()
 {
 
-    // creating multiple threads representing farmers of northBound and southBound
-    // ask user to enter no of farmers in northBound and southBound
     int count = 0;
     int n[count], s[count];
     int tempN, tempS;
@@ -121,12 +125,9 @@ int main()
 
         printf("Enter the northbound and southbound ratio: ");
         scanf("%f/%f", &nRatio[count], &sRatio[count]);
-       
 
         n[count] = nRatio[count] * totalNum[count];
         s[count] = sRatio[count] * totalNum[count];
-        
-       
 
         printf("Enter the delay time: ");
         scanf("%d", &delayTime[count]);
@@ -136,7 +137,7 @@ int main()
             delayTime[count + 1] = -2;
             delayTime[count] = 0;
         }
-	
+
         count++;
     }
 
@@ -186,21 +187,18 @@ int main()
             }
         }
 
-        // creating threads equal to number of farmers entered by user
         pthread_t northVehicles[tempN], southVehicles[tempS];
 
         pthread_mutex_init(&Northlock, NULL);
         pthread_mutex_init(&Southlock, NULL);
         pthread_cond_init(&Cond, NULL);
 
-        // now initializing all threads
         for (int i = 0; i < tempN; i++)
             pthread_create(&northVehicles[i], NULL, &northBound, &northVehicleArr[count][i]);
 
         for (int i = 0; i < tempS; i++)
             pthread_create(&southVehicles[i], NULL, &southBound, &southVehicleArr[count][i]);
 
-        // waiting for all threads
         for (int i = 0; i < tempN; i++)
             pthread_join(northVehicles[i], NULL);
         for (int i = 0; i < tempS; i++)
