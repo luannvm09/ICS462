@@ -1,0 +1,196 @@
+Enter the number of total: 10
+Enter the northbound and southbound ratio: 1.0/0.0
+Enter the delay time: 3
+Enter the number of total: 10
+Enter the northbound and southbound ratio: 0.0/1.0
+Enter the delay time: 20
+Enter the number of total: 10
+Enter the northbound and southbound ratio: 0.5/0.5
+Enter the delay time: -2
+
+Northbound: 10, Southbound: 0 
+NorthBound  Van 0 has arrived to the bridge
+
+Northbound Van 0 is crossing the bridge 
+
+Northbound Van 0 has finished crossing the bridge 
+
+NorthBound  Car 1 has arrived to the bridge
+
+Northbound Car 1 is crossing the bridge 
+
+Northbound Car 1 has finished crossing the bridge 
+
+NorthBound  Van 2 has arrived to the bridge
+
+Northbound Van 2 is crossing the bridge 
+
+Northbound Van 2 has finished crossing the bridge 
+
+NorthBound  Car 6 has arrived to the bridge
+
+Northbound Car 6 is crossing the bridge 
+
+Northbound Car 6 has finished crossing the bridge 
+
+NorthBound  Van 9 has arrived to the bridge
+
+Northbound Van 9 is crossing the bridge 
+
+Northbound Van 9 has finished crossing the bridge 
+
+NorthBound  Van 4 has arrived to the bridge
+
+Northbound Van 4 is crossing the bridge 
+
+Northbound Van 4 has finished crossing the bridge 
+
+NorthBound  Van 5 has arrived to the bridge
+
+Northbound Van 5 is crossing the bridge 
+
+Northbound Van 5 has finished crossing the bridge 
+
+NorthBound  Car 7 has arrived to the bridge
+
+Northbound Car 7 is crossing the bridge 
+
+Northbound Car 7 has finished crossing the bridge 
+
+NorthBound  Van 8 has arrived to the bridge
+
+NorthBound  Van 3 has arrived to the bridge
+
+Northbound Van 3 is crossing the bridge 
+
+Northbound Van 3 has finished crossing the bridge 
+
+Northbound Van 8 is crossing the bridge 
+
+Northbound Van 8 has finished crossing the bridge 
+
+----------- 
+Northbound: 0, Southbound: 10 
+SouthBound  Car 10 has arrived to the bridge
+
+Southbound Car 10 is crossing the bridge 
+
+Southbound Car 10 has finished crossing the bridge 
+
+SouthBound  Car 12 has arrived to the bridge
+
+Southbound Car 12 is crossing the bridge 
+
+Southbound Car 12 has finished crossing the bridge 
+
+SouthBound  Van 14 has arrived to the bridge
+
+Southbound Van 14 is crossing the bridge 
+
+Southbound Van 14 has finished crossing the bridge 
+
+SouthBound  Car 16 has arrived to the bridge
+
+Southbound Car 16 is crossing the bridge 
+
+Southbound Car 16 has finished crossing the bridge 
+
+SouthBound  Car 18 has arrived to the bridge
+
+Southbound Car 18 is crossing the bridge 
+
+Southbound Car 18 has finished crossing the bridge 
+
+SouthBound  Van 11 has arrived to the bridge
+
+Southbound Van 11 is crossing the bridge 
+
+Southbound Van 11 has finished crossing the bridge 
+
+SouthBound  Car 15 has arrived to the bridge
+
+Southbound Car 15 is crossing the bridge 
+
+Southbound Car 15 has finished crossing the bridge 
+
+SouthBound  Car 19 has arrived to the bridge
+
+SouthBound  Van 13 has arrived to the bridge
+
+Southbound Van 13 is crossing the bridge 
+
+Southbound Van 13 has finished crossing the bridge 
+
+SouthBound  Car 17 has arrived to the bridge
+
+Southbound Car 17 is crossing the bridge 
+
+Southbound Car 17 has finished crossing the bridge 
+
+Southbound Car 19 is crossing the bridge 
+
+Southbound Car 19 has finished crossing the bridge 
+
+----------- 
+Northbound: 5, Southbound: 5 
+NorthBound  Car 21 has arrived to the bridge
+
+Northbound Car 21 is crossing the bridge 
+
+SouthBound  Car 25 has arrived to the bridge
+
+Southbound Car 25 is crossing the bridge 
+
+Northbound Car 21 has finished crossing the bridge 
+
+NorthBound  Van 22 has arrived to the bridge
+
+Northbound Van 22 is crossing the bridge 
+
+Southbound Car 25 has finished crossing the bridge 
+
+SouthBound  Car 26 has arrived to the bridge
+
+Southbound Car 26 is crossing the bridge 
+
+Southbound Car 26 has finished crossing the bridge 
+
+Northbound Van 22 has finished crossing the bridge 
+
+NorthBound  Car 24 has arrived to the bridge
+
+Northbound Car 24 is crossing the bridge 
+
+SouthBound  Van 28 has arrived to the bridge
+
+Southbound Van 28 is crossing the bridge 
+
+Northbound Car 24 has finished crossing the bridge 
+
+NorthBound  Van 20 has arrived to the bridge
+
+Northbound Van 20 is crossing the bridge 
+
+SouthBound  Van 27 has arrived to the bridge
+
+Southbound Van 27 is crossing the bridge 
+
+Northbound Van 20 has finished crossing the bridge 
+
+NorthBound  Van 23 has arrived to the bridge
+
+Northbound Van 23 is crossing the bridge 
+
+Southbound Van 27 has finished crossing the bridge 
+
+Southbound Van 28 has finished crossing the bridge 
+
+SouthBound  Van 29 has arrived to the bridge
+
+Southbound Van 29 is crossing the bridge 
+
+Northbound Van 23 has finished crossing the bridge 
+
+Southbound Van 29 has finished crossing the bridge 
+
+----------- 
